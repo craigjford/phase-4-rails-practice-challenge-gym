@@ -1,18 +1,19 @@
 class MembershipsController < ApplicationController
     rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
 
-    # not required
-    def index            
-        memberships = Membership.all
-        render json: memberships
-    end
+    # USED FOR TESTING
+    # # not required
+    # def index            
+    #     memberships = Membership.all
+    #     render json: memberships
+    # end
 
-    def destroy    
-        ms = Membership.find(params[:id])
-        ms.destroy
-        head :no_content, :status => 204
-    end
-    # not required
+    # def destroy    
+    #     ms = Membership.find(params[:id])
+    #     ms.destroy
+    #     head :no_content, :status => 204
+    # end
+    # # not required
 
     def create 
         if unique_client_gym    
