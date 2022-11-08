@@ -31,7 +31,12 @@ class MembershipsController < ApplicationController
     end
 
     def unique_client_gym 
-        Membership.find_by(gym_id: params[:gym_id], client_id: params[:client_id])
+        found = Membership.find_by(gym_id: params[:gym_id], client_id: params[:client_id])
+        if found == nil
+            false
+        else
+            true    
+        end
     end
 
     def render_unprocessable_entity_response(invalid)

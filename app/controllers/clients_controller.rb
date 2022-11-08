@@ -5,12 +5,16 @@ class ClientsController < ApplicationController
 
     def index            
         clients = Client.all
-        render json: clients
+        render json: clients, include: :memberships
     end
 
     def show    
         client = find_client
-        render json: client   
+        total = 0
+        charges_array = client.memberships.map do |membership|
+             total = total + membership[:charge]
+        end
+        render json: client
     end
 
     def update      
