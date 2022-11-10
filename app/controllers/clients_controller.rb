@@ -4,17 +4,12 @@ class ClientsController < ApplicationController
     rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
 
     def index            
-        clients = Client.all
-        render json: clients, include: :memberships
+        render json: Client.all, include: :memberships, status: :ok
     end
 
     def show    
         client = find_client
-        total = 0
-        charges_array = client.memberships.map do |membership|
-             total = total + membership[:charge]
-        end
-        render json: client
+        render json: client, except: [:created_at, :updated_at], methods: [:total_amount], status: :ok
     end
 
     def update      
@@ -30,7 +25,7 @@ class ClientsController < ApplicationController
     end
 
     def client_params   
-        params.require(:client).permit(:name, :age)
+        params.permit(:name, :age)
     end
 
     def render_not_found

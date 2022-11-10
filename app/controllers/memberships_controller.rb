@@ -27,16 +27,11 @@ class MembershipsController < ApplicationController
     private
 
     def membership_params
-        params.require(:membership).permit(:gym_id, :client_id, :charge)
+        params.permit(:gym_id, :client_id, :charge)
     end
 
     def unique_client_gym 
         found = Membership.find_by(gym_id: params[:gym_id], client_id: params[:client_id])
-        if found == nil
-            false
-        else
-            true    
-        end
     end
 
     def render_unprocessable_entity_response(invalid)

@@ -3,13 +3,12 @@ class GymsController < ApplicationController
     rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
 
     def index            
-        gyms = Gym.all
-        render json: gyms, include: :clients
+        render json: Gym.all, include: :clients, status: :ok
     end
 
     def show  
         gym = find_gym
-        render json: gym
+        render json: gym, include: :clients, status: :ok
     end
 
     def destroy 
@@ -31,7 +30,7 @@ class GymsController < ApplicationController
     end
 
     def gym_params    
-        params.require(:gym).permit(:name, :address)
+        params.permit(:name, :address)
     end
 
     def render_not_found   
